@@ -22,6 +22,15 @@ require 'database_cleaner'
 #
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
+# configure shoulda matchers to use rspec as the test framework and full matcher libraries for rails
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
+end
+
+
 # Checks for pending migration and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
@@ -38,7 +47,7 @@ RSpec.configure do |config|
   # add factory girl
   config.include FactoryGirl::Syntax::Methods
 
-  config.include RequestSpecHelper, type: :request
+  # config.include RequestSpecHelper, type: :request
 
   # start by truncating all the tables but then use the faster transaction strategy the rest of the time.
   config.before(:suite) do
